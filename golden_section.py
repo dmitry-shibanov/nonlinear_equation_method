@@ -11,19 +11,21 @@ class GoldenSection():
         return f
 
     def findMin(self, a, b, e):
+        k = 0
         while (True):
             x1 = b - (b - a) / self.PHI
             x2 = a + (b - a) / self.PHI
+            k += 1
             if (self.f(x1) >= self.f(x2)):
                 a = x1
             else:
                 b = x2
             if (np.abs(b - a) < e):
                 break
+        print("Количество итераций {0}".format(k))
         return (a + b) / 2
 
-
-    def findMax(self,a, b, e):
+    def findMax(self, a, b, e):
         while (True):
             x1 = b - (b - a) / self.PHI
             x2 = a + (b - a) / self.PHI
