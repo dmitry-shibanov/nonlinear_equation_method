@@ -1,10 +1,48 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 class PaulMethod:
 
-    # def findMin(self, a, b, e):
-    def findMin(self, x1, h, e, Approx):
+    def f(self, x):
+        return x ** 5 - x ** 2
+
+    def parabal(self, a, b, c, x):
+        return a * x ** 2 + b * x + c
+
+    def __init__(self, h):
+        self.h = 0.01
+        self.Xrange = np.arange(-1, 1.5, h)
+
+    def Approx(self, x1, x2, x3, f1, f2, f3):
+        a0 = f1
+        a1 = (f2 - f1) / (x2 - x1)
+        a2 = (1 / (x3 - x2)) * ((f3 - f1) / (x3 - x1) - (f2 - f1) / (x2 - x1))
+        x = ((x2 + x1) / 2) - (a1 / (2 * a2))
+
+        r12 = x1 - x2
+        r13 = x1 - x3
+        r23 = x2 - x3
+        s12 = x1 + x2
+        s13 = x1 + x3
+        s23 = x2 + x3
+        p12 = x1 * x2
+        p13 = x1 * x3
+        p23 = x2 * x3
+
+        a = (f1 / (r12 * r13)) - (f2 / (r12 * r23)) + (f3 / (r13 * r23))
+        b = -((f1 * s23) / (r12 * r13)) + ((f2 * s13) / (r12 * r23)) - ((f3 * s12) / (r13 * r23))
+        c = ((f1 * p23) / (r12 * r13)) - ((f2 * p13) / (r12 * r23)) + ((f3 * p12) / (r13 * r23))
+
+        plt.plot(self.Xrange, self.parabal(a, b, c, self.Xrange), ':',
+                 label="{0}*x^2 + {1}*x + {2}".format(round(a, 2), round(b, 2), round(c, 2)))
+        plt.plot(x, self.parabal(a, b, c, x), 'bx',
+                 label="x = {0} y = {1}".format(round(x, 2), round(self.parabal(a, b, c, x), 2)))
+        plt.plot(x, self.f(x), 'yo', label="x = {0} y = {1}".format(round(x, 2), round(self.f(x), 2)))
+
+        return x
+
+    def Powell(self, x1, h, e):
         k = 0
         Ymin = 0.0
         Xmin = 0.0
@@ -27,7 +65,7 @@ class PaulMethod:
             elif (fx3 < fx1 and fx3 < fx2):
                 Ymin = fx3
                 Xmin = x3
-            x = Approx(x1, x2, x3, fx1, fx2, fx3, self.f)
+            x = self.Approx(x1, x2, x3, fx1, fx2, fx3)
             Yx = self.f(x)
             k = k + 1
             if (np.abs(Ymin - Yx) <= e and np.abs(Xmin - x) <= e):
@@ -41,48 +79,18 @@ class PaulMethod:
             elif (fx3 > fx1 and fx3 > fx2 and fx3 > Yx):
                 x3 = x
                 fx3 = Yx
-        print(k)
-        return x
+        return x, k
 
-    def f(self, x):
-        f = np.power(x, 5) - np.power(x, 2)
-        return f
+    def show(self):
+        plt.figure(1)
+        font = {'size': 7}
+        plt.rc('font', **font)
+        plt.title("Метод Пауэлла")
+        plt.ylim(-0.4, 1)
+        plt.xlabel(r'$x$')
+        plt.ylabel(r'$y(x)$')
+        plt.grid(True)  # Сетка
+        plt.plot(self.Xrange, self.f(self.Xrange), label="f(x) = x^5 - x^2")  # Основная функция
+        plt.legend()
 
-
-
-
-
-        # h = 0.01
-        # e2 = 0.1
-        # x1 = a
-        # Xmin = 0
-        # x2 = x1 + h
-        # fx1 = self.f(x1)
-        # fx2 = self.f(x2)
-        # if fx1 > fx2:
-        #     self.x3 = x1 + 2 * h
-        # else:
-        #     self.x3 = x1 - h
-        # while True:
-        #     fx3 = self.f(self.x3)
-        #     arrayX = [x1, x2, self.x3]
-        #     arrayF = [fx1, fx2, fx3]
-        #     FminIndex = np.argmin(arrayF)
-        #     Xmin = arrayX[FminIndex]
-        #     Fmin = arrayF[FminIndex]
-        #     a1 = (fx2 - fx1) / (x2 - x1)
-        #     a2 = 1 / (self.x3 - x2) * ((fx3 - fx1) / (self.x3 - x1) - (fx2 - fx1) / (x2 - x1))
-        #     x = (x2 + x1) / 2.0 - a1 / (2 * a2)
-        #     if np.abs(Fmin - self.f(x)) < e: #and np.abs(Fmin - self.f(x)) < e2
-        #         break
-        #     else:
-        #         if Fmin > self.f(x):
-        #             x2 = x
-        #         else:
-        #             x2 = Xmin
-        #
-        #         x1 = x2 - (b - x2) / 200.0
-        #         self.x3 = x2 + (b - x2) / 200.0
-        #         print('Минимальное значение при xmin = {0} и x = {1}'.format(Xmin, x))
-        #         print("x1 = {0} и x2 = {1} и x3 = {2}".format(x1, x2, self.x3))
-        # return Xmin
+        plt.show()  # Показать график
