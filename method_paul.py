@@ -90,7 +90,7 @@ class PaulMethod:
         plt.xlabel(r'$x$')
         plt.ylabel(r'$y(x)$')
         plt.grid(True)  # Сетка
-        plt.plot(self.Xrange, self.f(self.Xrange), label="f(x) = x^5 - x^2")  # Основная функция
+        plt.plot(self.Xrange, self.f(self.Xrange), label="f(x) = x^5 - x^2")
         plt.legend()
 
-        plt.show()  # Показать график
+        plt.show()

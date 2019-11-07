@@ -97,7 +97,7 @@ class Simplex:
 
         plt.plot(x_s[min_index][0], x_s[min_index][1], "ko", label=f"x_min = [{x_s[min_index][0]},{x_s[min_index][1]}]")
 
-        print(f"Метод Cимплексного поиска: [{x_s[min_index][0]},{x_s[min_index][1]}]")
+        print(f"Метод Симплексного поиска: [{x_s[min_index][0]},{x_s[min_index][1]}]")
 
         plt.title("Метод симплексного поиска: " + r'$y=x1^2+x2^2; e=$' + str(e))
         plt.xlabel(r'$x$')

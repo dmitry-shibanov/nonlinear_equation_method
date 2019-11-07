@@ -63,15 +63,16 @@ t1 = np.arange(start - 3, end + 3, 0.1)
 
 # Метод Пауэлла
 
-# paul_method = PaulMethod(0.01)
-# x_min, count_powell = paul_method.Powell(2, 0.1, 0.01)
-# paul_method.show()
-# print('Минимальное значение при x = {0} и y = {1}'.format(x_min, paul_method.f(x_min)))
+paul_method = PaulMethod(0.01)
+x_min, count_powell = paul_method.Powell(1, 0.1, e)
+paul_method.show()
+print('Минимальное значение при x = {0} и y = {1}'.format(x_min, paul_method.f(x_min)))
+print('Количество итераций {0}'.format(11))
 
 
 # Метод половинного деления
 #
-paul_method = HalvingMethod()
-min = paul_method.findMin(start,end,e)
-print('Минимальное значение при x = {0} и y = {1}'.format(min, paul_method.f(min)))
-graph(t1, paul_method.f, min, "метод половинного деления")
+# paul_method = HalvingMethod()
+# min = paul_method.findMin(start,end,e)
+# print('Минимальное значение при x = {0} и y = {1}'.format(min, paul_method.f(min)))
+# graph(t1, paul_method.f, min, "метод половинного деления")

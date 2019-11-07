@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 import math
 
 class MyFunctions:
@@ -32,3 +33,12 @@ class MyFunctions:
 
     def Z(self):
         return self.f(self.__X, self.__Y)
+
+    def figure(self):
+        plt.figure(3)
+        plt.title(r'$y=x1^2+x2^2$')
+        plt.xlabel(r'$x$')
+        plt.ylabel(r'$y(x)$')
+        plt.grid(True)
+        print(self.Z())
+        plt.contour(self.__X, self.__Y, self.Z(), [0, 10, 20, 30, 40, 50])
